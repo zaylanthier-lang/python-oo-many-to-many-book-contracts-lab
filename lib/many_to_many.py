@@ -6,15 +6,19 @@ class Author:
         Author.all.append(self)
 
     def contracts(self):
+        # Return all contracts connected to this author
         return [contract for contract in Contract.all if contract.author == self]
 
     def books(self):
+        # Return all books connected to this author
         return [contract.book for contract in self.contracts()]
 
-    def sign_contracts(self, book, date, royalties):
+    def sign_contract(self, book, date, royalties):
+        # Create a new contract
         return Contract(self, book, date, royalties)
 
     def total_royalties(self):
+        # Add all royalties together
         return sum(contract.royalties for contract in self.contracts())
 
 
@@ -26,9 +30,11 @@ class Book:
         Book.all.append(self)
 
     def contracts(self):
+        # Return all contracts connected to this book
         return [contract for contract in Contract.all if contract.book == self]
 
     def authors(self):
+        # Return all authors connected to this book
         return [contract.author for contract in self.contracts()]
 
 
@@ -85,4 +91,5 @@ class Contract:
 
     @classmethod
     def contracts_by_date(cls, date):
+        # Return all contracts for a specific date
         return [contract for contract in cls.all if contract.date == date]
